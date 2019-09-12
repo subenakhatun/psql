@@ -1,0 +1,43 @@
+
+CREATE TABLE INSTRUCTOR(
+ins_id INT PRIMARY KEY NOT NULL,
+lastname VARCHAR NOT NULL,
+fristname VARCHAR NOT NULL,
+city VARCHAR NOT NULL,
+country CHAR(2)
+-- );
+
+INSERT INTO INSTRUCTOR(ins_id,lastname,fristname,city,country) values
+(1,'Rav','Ahuja','Toronto','CA');
+
+
+INSERT INTO INSTRUCTOR(ins_id,lastname,fristname,city,country) values 
+(2,'RAhul','Chong','Mumbai','IN'),
+(3,'Hima','Vasadevan','Delhi','IN'),
+(4,'Subena','Khatun','Sylhet','BD'),
+(5,'Popy','Meherunnisa','Toronto','CA'),
+(6,'Rakib','Hasan','Kalmar','SW'),
+(7,'Faysal','Farazi','Kiruna','Sw');
+
+SELECT * FROM INSTRUCTOR;
+
+SELECT fristname,lastname,country FROM INSTRUCTOR WHERE city = 'Toronto';
+
+UPDATE INSTRUCTOR SET city = 'Markham' WHERE ins_id = 1;
+SELECT * FROM INSTRUCTOR;
+DELETE FROM INSTRUCTOR WHERE ins_id = 3;
+select * from instructor;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
