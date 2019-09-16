@@ -1,0 +1,164 @@
+I aplly this code: 
+
+-- drop table departments,jobs;
+select * from employees;
+select f_name,l_name from employees;
+select * from employees;
+select f_name from employees where f_name like 'St%';
+select * from employees;
+select b_date from employees;
+select * from employees;
+select f_name,l_name from employees
+where l_name like 'a%';
+select * from employees;
+select f_name,l_name from employees where address like '%A%';
+select * from employees;
+select f_name,l_name from employees order by f_name;
+select l_name from employees order by f_name desc;
+select * from employees;
+select ssn,b_date,sex from employees order by 2;
+select * from employees;
+select job_id,count(job_id) from employees group by job_id;
+select * from job_history;
+select * from employees;
+select * from locations;
+select * from employees;
+select count(job_id) from employees;
+select * from departments;
+select * from employees;
+select * from jobs;
+select job_ident from jobs where (min_salary between 60000 and 80000);
+select * from jobs;
+select job_ident,job_title,min_salary from jobs order by min_salary desc,job_title desc;
+select count(dept_id_dep) from departments;
+select * from departments;
+select count(dep_name) from departments group by dep_name;
+select dep_name,count(manager_id) from departments group by dep_name;
+
+select job_ident from jobs group by job_ident;
+select count(job_ident) from jobs group by job_ident;
+select count(min_salary) ,job_ident from jobs group by job_ident;
+
+select f_name from employees;
+select * from employees;
+select f_name from employees group by f_name order by f_name;
+select f_name,count(l_name) from employees group by f_name;
+select count(f_name) from employees group by f_name;
+select sum(min_salary) from jobs;
+select sum(min_salary) from jobs group by min_salary;
+select min_salary from jobs group by min_salary;
+select min_salary from jobs;
+select min_salary from jobs group by min_salary;
+select count(min_salary) from jobs group by min_salary;
+select min_salary from jobs;
+select min_salary from jobs group by min_salary;
+select sum(min_salary),count(job_title) from jobs group by job_title,min_salary order by job_title;
+select job_ident,sum(min_salary) as s_salary from jobs group by job_ident order by s_salary;
+select count(job_ident),sum(min_salary) as s_salary from jobs group by job_ident having count(job_ident)<3 order by s_salary;
+
+Today i pratices this.
+
+1. create table
+2. import csv file into pgadmin4
+3. solve some advance sql query
+4. complete task week2 from corsera videos.
+
+Query 1: Retrieve all employees whose address is in Elgin,IL
+[Hint: Use the LIKE operator to find similar strings]
+Query 2: Retrieve all employees who were born during the 1970's.
+[Hint: Use the LIKE operator to find similar strings]
+Query 3: Retrieve all employees in department 5 whose salary is between
+60000 and 70000 .
+[Hint: Use the keyword BETWEEN for this query ]
+Query 4A: Retrieve a list of employees ordered by department ID.
+[Hint: Use the ORDER BY clause for this query]
+Query 4B: Retrieve a list of employees ordered in descending order by
+department ID and within each department ordered alphabetically in
+descending order by last name.
+Query 5A: For each department ID retrieve the number of employees in the
+department.
+[Hint: Use COUNT(*) to retrieve the total count of a column, and then GROUP BY]
+Course:	Databases	and	SQL	for	Data	Science	- LAB:	String	Patterns,	Sorting	and	Grouping
+Copyright	©2018	IBM	Corporation Page	10 of	15
+Query 5B: For each department retrieve the number of employees in the
+department, and the average employees salary in the department.
+[Hint: Use COUNT(*) to retrieve the total count of a column, and AVG() function to
+compute average salaries, and then group]
+Query 5C: Label the computed columns in the result set of Query 5B as
+“NUM_EMPLOYEES” and “AVG_SALARY”.
+[Hint: Use AS “LABEL_NAME” after the column name]
+Query 5D: In Query 5C order the result set by Average Salary.
+[Hint: Use ORDER BY after the GROUP BY]
+Query 5E: In Query 5D limit the result to departments with fewer than 4
+employees.
+[Hint: Use HAVING after the GROUP BY, and use the count() function in the
+HAVING clause instead of the column label.
+Note: WHERE clause is used for filtering the entire result set whereas the HAVING
+clause is used for filtering the result of the grouping]
+
+Here is the coursea query Solve: 
+
+-- Query 1------
+;
+select F_NAME , L_NAME
+from EMPLOYEES
+where ADDRESS LIKE '%Elgin,IL%' ;
+--Query 2--
+;
+select F_NAME , L_NAME
+from EMPLOYEES
+where B_DATE LIKE '197%' ;
+---Query3--
+;
+select *
+from EMPLOYEES
+where (SALARY BETWEEN 60000 and 70000)  and DEP_ID = 5 ;
+--Query4A--
+;
+select F_NAME, L_NAME, DEP_ID 
+from EMPLOYEES
+order by DEP_ID;
+--Query4B--
+;
+select F_NAME, L_NAME, DEP_ID 
+from EMPLOYEES
+order by DEP_ID desc, L_NAME desc;
+--Query5A--
+;
+select DEP_ID, COUNT(*)
+from EMPLOYEES
+group by DEP_ID;
+--Query5B--
+;
+select DEP_ID, COUNT(*), AVG(SALARY)
+from EMPLOYEES
+group by DEP_ID;
+--Query5C--
+;
+select DEP_ID, COUNT(*) AS "NUM_EMPLOYEES", AVG(SALARY) AS "AVG_SALARY"
+from EMPLOYEES
+group by DEP_ID;
+--Query5D--
+;
+select DEP_ID, COUNT(*) AS "NUM_EMPLOYEES", AVG(SALARY) AS "AVG_SALARY"
+from EMPLOYEES
+group by DEP_ID
+order by AVG_SALARY;
+--Query5E--
+;
+select DEP_ID, COUNT(*) AS "NUM_EMPLOYEES", AVG(SALARY) AS "AVG_SALARY"
+from EMPLOYEES
+group by DEP_ID
+having count(*) < 4
+order by AVG_SALARY;
+--5E alternative: if you want to use the label
+select DEP_ID, NUM_EMPLOYEES, AVG_SALARY from
+  ( select DEP_ID, COUNT(*) AS NUM_EMPLOYEES, AVG(SALARY) AS AVG_SALARY from EMPLOYEES group by DEP_ID)
+  where NUM_EMPLOYEES < 4
+order by AVG_SALARY;
+--BONUS Query6--
+;
+select D.DEP_NAME , E.F_NAME, E.L_NAME
+from EMPLOYEES as E, DEPARTMENTS as D
+where E.DEP_ID = D.DEPT_ID_DEP
+order by D.DEP_NAME, E.L_NAME desc ;
